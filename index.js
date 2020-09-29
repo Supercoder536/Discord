@@ -8,7 +8,6 @@ const ytsr = require('ytsr');
 const canvacord = require('canvacord');
 var currentlvl;
 const PREFIX = "!";
-const token = "NzQ2NzExNzY0Nzc5MTM5MTMz.X0EThQ.q2RRPj35BGWYNHBDhgXc6Cvzd-w";
 const DBforlevels = new Map();
 const mongoose = require('mongoose');
 const connectiontoDB = async () =>{
