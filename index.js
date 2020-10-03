@@ -1,6 +1,7 @@
 
 const {Client, RichEmbed, MessageReaction,MessageAttachment, Message, Discord, MessageEmbed, User, ClientUser, MessageMentions, GuildMember, Guild, GuildMemberManager, MessageManager, VoiceConnection} = require('discord.js');
 const bot = new Client();
+const { profile } = "./databaseattempt";
 const { Schema} = require('mongoose');
 const Canvacord = require('canvacord');
 const ytdl = require('ytdl-core');
@@ -8,28 +9,12 @@ const ytsr = require('ytsr');
 const canvacord = require('canvacord');
 var currentlvl;
 const PREFIX = "!";
-const DBforlevels = new Map();
 const mongoose = require('mongoose');
 const connectiontoDB = async () =>{
-    await mongoose.connect('mongodb://new_user30:1234@userinfo-shard-00-00.ra9wa.mongodb.net:27017,userinfo-shard-00-01.ra9wa.mongodb.net:27017,userinfo-shard-00-02.ra9wa.mongodb.net:27017/Rank?ssl=true&replicaSet=atlas-mdhm7e-shard-0&authSource=admin&retryWrites=true&w=majority',{useUnifiedTopology: true, useNewUrlParser: true});
+    await mongoose.connect('mongodb+srv://new_user30:1234@userinfo.ra9wa.mongodb.net/Rank?retryWrites=true&w=majority&ssl=true',{useUnifiedTopology: true, useNewUrlParser: true,useFindAndModify: false});
     console.log('Connected to MongoDB web');
 };
-const reqstring = {
-    type: String,
-    required: true,
-};
-const profileschema = Schema({
-    guildid: reqstring,
-    userid: reqstring,
-    xp: {
-        type: Number,
-        default: 0
-    },
-    level: {
-        type: Number,
-        default: 1,
-    }
-});
+
 bot.on('ready', () =>{
     console.log("The Bot is active and ready to go");
     bot.user.setActivity('!setup', {type: "PLAYING"});
@@ -42,7 +27,7 @@ bot.on("message", async message =>{
     const addxp = async (guildid, userid, xptoadd) => {
         connectiontoDB().then(async monkey =>{
             try {
-                const result = await profileschema.findOneAndUpdate({
+                const result = await profile.findOneAndUpdate({
                     guildid,
                     userid
                 },{
